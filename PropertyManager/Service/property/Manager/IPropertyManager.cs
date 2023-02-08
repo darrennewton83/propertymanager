@@ -1,9 +1,7 @@
-﻿namespace Service.property
+﻿namespace Service.property.Manager
 {
-    /// <summary>
-    /// Represents a datastore of properties
-    /// </summary>
-    public interface IPropertyDataStore
+    ///Represents a manager to manage the crud operations of properties
+    public interface IPropertyManager
     {
         /// <summary>
         /// Returns the details of a property based on its id

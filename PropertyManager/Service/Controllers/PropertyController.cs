@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using Service.property;
+using Service.property.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;

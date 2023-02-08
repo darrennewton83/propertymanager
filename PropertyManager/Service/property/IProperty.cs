@@ -1,6 +1,7 @@
 ﻿namespace Service.property
 {
     using Service.address;
+    using Service.propertyType;
 
     /// <summary>
     /// Represents a property available for renting
@@ -10,12 +11,12 @@
         /// <summary>
         /// Gets the unique identifer of the property
         /// </summary>
-        public int Id { get; }
+        public int? Id { get; }
 
         /// <summary>
         /// Gets the type of the property
         /// </summary>
-        public PropertyType Type { get; }
+        public IPropertyType Type { get; }
 
         /// <summary>
         /// Gets the address of the property

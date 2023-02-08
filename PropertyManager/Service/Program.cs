@@ -1,8 +1,8 @@
 ﻿using DataAccess.database;
-using Service.property;
 using Microsoft.Extensions.DependencyInjection;
-using Service.property;
 using Microsoft.Extensions.Configuration;
+using Service.property.Manager;
+using Service.property.DataStores;
 
 var builder = WebApplication.CreateBuilder(args);
 

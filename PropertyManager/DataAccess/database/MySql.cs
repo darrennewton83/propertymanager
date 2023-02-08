@@ -1,6 +1,7 @@
 ﻿namespace DataAccess.database
 {
     using Dapper;
+    using global::MySql.Data.MySqlClient;
     using Microsoft.Data.SqlClient;
     using Microsoft.Extensions.Logging;
     using System.Data;
@@ -9,15 +10,15 @@
     /// <summary>
     /// An database connection for Microsoft SQL Server
     /// </summary>
-    public class MicrosoftSqlServer : IDatabaseConnection, IDisposable
+    public class MySql : IDatabaseConnection, IDisposable
     {
-        ILogger<MicrosoftSqlServer> _logger;
+        ILogger<MySql> _logger;
         private string _connectionString;
 
         /// <param name="logger">The logger</param>
         /// <param name="connectionString">The connection string of the database to connect to</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public MicrosoftSqlServer(ILogger<MicrosoftSqlServer> logger, string connectionString)
+        public MySql(ILogger<MySql> logger, string connectionString)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             if (string.IsNullOrWhiteSpace(connectionString))
@@ -37,10 +38,10 @@
         public async ValueTask<int> ExecuteCommandAsync(string sql, IList<SqlParameter> parameters)
         {
             
-            var connection = new SqlConnection(_connectionString);
+            var connection = new MySqlConnection(_connectionString);
             
             await connection.OpenAsync();
-            SqlCommand command = new SqlCommand(sql, connection);
+            MySqlCommand command = new MySqlCommand(sql, connection);
 
             if (parameters != null && parameters.Count > 0)
             {
@@ -48,6 +49,7 @@
             }
             
             int affectedRecords = await command.ExecuteNonQueryAsync();
+
             await connection.CloseAsync();
             return affectedRecords;
         }
@@ -61,19 +63,28 @@
         /// <inheritdoc />
         public async ValueTask<object?> ExecuteScalarAsync(string sql, IList<SqlParameter> parameters)
         {
-            var connection = new SqlConnection(_connectionString);
+            var connection = new MySqlConnection(_connectionString);
 
             await connection.OpenAsync();
-            SqlCommand command = new SqlCommand(sql, connection);
+            MySqlCommand command = new MySqlCommand(sql, connection);
 
             if (parameters != null && parameters.Count > 0)
             {
                 InitialiseParameters(command, parameters);
             }
 
-            var result = await command.ExecuteScalarAsync();
-            await connection.CloseAsync();
-            return result;
+            try
+            {
+                var result = await command.ExecuteScalarAsync();
+                await connection.CloseAsync();
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return null;
         }        
 
         /// <inheritdoc />
@@ -81,7 +92,7 @@
         {
             var parameters = new DynamicParameters();
             parameters.Add(idColumnName, id);
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new MySqlConnection(_connectionString))
             {
 
                 var result = await connection.QueryFirstOrDefaultAsync(sql, parameters);
@@ -95,9 +106,28 @@
         /// <inheritdoc />
         public void InitialiseParameters(IDbCommand command, IList<SqlParameter> parameters)
         {
-            if (command is SqlCommand sqlCommand) 
+            if (command is MySqlCommand mySqlCommand)
             {
-                sqlCommand.Parameters.AddRange(parameters.ToArray());
+                foreach (var parameter in parameters)
+                {
+                   
+                    MySqlParameter mySqlParam = new MySqlParameter(parameter.ParameterName, parameter.Value);
+                    mySqlParam.Size = parameter.Size;
+                    mySqlParam.Direction = parameter.Direction;
+                    mySqlParam.DbType = parameter.DbType;
+                    command.Parameters.Add(mySqlParam);
+                } 
+            }
+        }
+
+        private MySqlDbType? ConvertParameterType(SqlDbType parameterType)
+        {
+            switch (parameterType)
+            {
+                case SqlDbType.Int:
+                    return MySqlDbType.Int32;
+                default:
+                    return null;
             }
         }
     }

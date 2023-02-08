@@ -1,5 +1,7 @@
-﻿namespace Service.property
+﻿namespace Service.property.Manager
 {
+    using Service.property.DataStores;
+
     /// <inheritdoc />
     public class PropertyManager : IPropertyManager
     {
@@ -12,7 +14,7 @@
         /// <exception cref="ArgumentNullException"></exception>
         public PropertyManager(IPropertyDataStore dataStore)
         {
-            this._dataStore = dataStore ?? throw new ArgumentNullException();
+            _dataStore = dataStore ?? throw new ArgumentNullException();
         }
 
         /// <inheritdoc />
@@ -23,7 +25,7 @@
                 throw new ArgumentOutOfRangeException(nameof(id));
             }
 
-            return await this._dataStore.DeleteAsync(id);
+            return await _dataStore.DeleteAsync(id);
         }
 
         /// <inheritdoc />
@@ -37,16 +39,12 @@
             return await _dataStore.GetAsync(id);
         }
 
-        public async ValueTask<IProperty> SaveAsync(IProperty property)
+        /// <inheritdoc />
+        public async ValueTask<IProperty?> SaveAsync(IProperty property)
         {
             if (property == null)
             {
                 throw new ArgumentNullException(nameof(property));
-            }
-
-            if (property.Id <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(property.Id));
             }
 
             return await _dataStore.SaveAsync(property);
