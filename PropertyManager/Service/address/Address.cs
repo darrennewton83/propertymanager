@@ -1,5 +1,6 @@
 ﻿namespace Service.address
 {
+    /// <inheritdoc />
     public class Address : IAddress
     {
         /// <summary>

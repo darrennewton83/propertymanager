@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseIntegrationTests", "DatabaseIntegrationTests\DatabaseIntegrationTests.csproj", "{CA2BBF05-5D85-4D12-9F8E-9FD025663594}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiIntegrationTests", "ApiIntegrationTests\ApiIntegrationTests.csproj", "{597C2C3F-FE41-4C7F-8CCD-F941801044BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{CA2BBF05-5D85-4D12-9F8E-9FD025663594}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA2BBF05-5D85-4D12-9F8E-9FD025663594}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA2BBF05-5D85-4D12-9F8E-9FD025663594}.Release|Any CPU.Build.0 = Release|Any CPU
+		{597C2C3F-FE41-4C7F-8CCD-F941801044BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{597C2C3F-FE41-4C7F-8CCD-F941801044BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{597C2C3F-FE41-4C7F-8CCD-F941801044BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{597C2C3F-FE41-4C7F-8CCD-F941801044BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

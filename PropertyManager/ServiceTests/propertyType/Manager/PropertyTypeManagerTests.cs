@@ -1,7 +1,10 @@
-﻿using DataAccess.database;
+﻿using AutoMapper;
+using DataAccess.database;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
+using Service.EntityResults;
+using Service.ErrorResults;
 using Service.propertyType;
 using Service.propertyType.DataStores;
 using Service.propertyType.Manager;
@@ -106,7 +109,7 @@ namespace ServiceTests.propertyType.Manager
             {
                 var sut = new PropertyTypeManager(DataStore, Logger);
                 var propertyType = new PropertyType("name");
-                DataStore.SaveAsync(Arg.Any<PropertyType>()).Returns(propertyType);
+                DataStore.SaveAsync(Arg.Any<PropertyType>()).Returns(new ValueResult<IPropertyType>(propertyType));
 
                 var result = await sut.SaveAsync(propertyType);
                 Assert.NotNull(result);
@@ -117,21 +120,21 @@ namespace ServiceTests.propertyType.Manager
             {
                 var sut = new PropertyTypeManager(DataStore, Logger);
                 var propertyType = new PropertyType(3, "name");
-                DataStore.SaveAsync(Arg.Any<PropertyType>()).Returns(propertyType);
+                DataStore.SaveAsync(Arg.Any<PropertyType>()).Returns(new ValueResult<IPropertyType>(propertyType));
 
                 var result = await sut.SaveAsync(propertyType);
                 Assert.NotNull(result);
             }
 
             [Fact]
-            public async void GivenPropertyTypeToSaveFails_SaveAsync_ReturnsNull()
+            public async void GivenPropertyTypeToSaveFails_SaveAsync_ReturnsErrorResult()
             {
                 var sut = new PropertyTypeManager(DataStore, Logger);
                 var propertyType = new PropertyType(3, "name");
-                DataStore.SaveAsync(Arg.Any<PropertyType>()).ReturnsNull();
+                DataStore.SaveAsync(Arg.Any<PropertyType>()).Returns(new EntityErrorResult<IPropertyType>());
 
                 var result = await sut.SaveAsync(propertyType);
-                Assert.Null(result);
+                Assert.Equal(ResultType.Error, result.Type);
             }
         }
 

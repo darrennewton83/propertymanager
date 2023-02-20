@@ -2,6 +2,7 @@
 {
     using DataAccess.database;
     using Microsoft.Data.SqlClient;
+    using Service.EntityResults;
 
     public abstract class SqlPropertyTypeDataStore : IPropertyTypeDataStore
     {
@@ -36,7 +37,7 @@
         }
 
         /// <inheritdoc />
-        public async ValueTask<IPropertyType?> SaveAsync(IPropertyType propertyType)
+        public async ValueTask<IEntityResult<IPropertyType>> SaveAsync(IPropertyType propertyType)
         {
             if (propertyType == null)
             {
@@ -59,7 +60,21 @@
                 sql = InsertSql;
             }
 
-            object? result = await _databaseConnection.ExecuteScalarAsync(sql.ToString(), parameters);
+            object? result = null;
+
+            try
+            {
+                result = await _databaseConnection.ExecuteScalarAsync(sql.ToString(), parameters);
+            }
+            catch (SqlException ex)
+            {
+                if (_logger.IsEnabled(LogLevel.Error))
+                {
+                    _logger.LogError(ex, "SQL could not be run saving a Property Type.");
+                }
+
+                return new EntityErrorResult<IPropertyType>();
+            }
 
             if (result == null)
             {
@@ -78,7 +93,7 @@
                 propertyType = new PropertyType(id, propertyType.Name);
             }
 
-            return propertyType;
+            return new ValueResult<IPropertyType>(propertyType);
         }
 
         /// <inheritdoc />

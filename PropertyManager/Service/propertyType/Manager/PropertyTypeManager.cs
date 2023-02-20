@@ -1,7 +1,9 @@
 ﻿namespace Service.propertyType.Manager
 {
+    using Service.EntityResults;
     using Service.propertyType.DataStores;
 
+    /// <inheritdoc />
     public class PropertyTypeManager : IPropertyTypeManager
     {
         private IPropertyTypeDataStore _dataStore;
@@ -42,23 +44,21 @@
         }
 
         /// <inheritdoc />
-        public async ValueTask<IPropertyType?> SaveAsync(IPropertyType propertyType)
+        public async ValueTask<IEntityResult<IPropertyType>> SaveAsync(IPropertyType propertyType)
         {
             if (propertyType == null)
             {
                 throw new ArgumentNullException(nameof(propertyType));
             }
 
-            var result =  await _dataStore.SaveAsync(propertyType);
+            IEntityResult<IPropertyType> result =  await _dataStore.SaveAsync(propertyType);
 
-            if (result == null)
+            if (result.Type == ResultType.Error)
             {
                 if (_logger.IsEnabled(LogLevel.Error))
                 {
                     _logger.LogError("Property type unable to be saved. ID {id}, Name {name}", propertyType.Id, propertyType.Name);
                 }
-
-                return null;
             }
 
             return result;

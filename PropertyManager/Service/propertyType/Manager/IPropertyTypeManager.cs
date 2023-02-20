@@ -1,4 +1,6 @@
-﻿namespace Service.propertyType.Manager
+﻿using Service.EntityResults;
+
+namespace Service.propertyType.Manager
 {
     /// <summary>
     /// Represents a manager to manage the crud operations of property types
@@ -24,6 +26,6 @@
         /// </summary>
         /// <param name="propertyType">An instance of <see cref="IPropertyType"/> to save</param>
         /// <returns></returns>
-        public ValueTask<IPropertyType?> SaveAsync(IPropertyType propertyType);
+        public ValueTask<IEntityResult<IPropertyType>> SaveAsync(IPropertyType propertyType);
     }
 }

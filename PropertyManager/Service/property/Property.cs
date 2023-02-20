@@ -19,44 +19,16 @@
         /// <param name="notes">Any general notes about the property</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public Property (int id, IPropertyType type, IAddress address, decimal? purchasePrice, DateOnly? purchaseDate, bool garage, byte? numberOfParkingSpaces, string notes)
+        public Property (int id, IPropertyType type, IAddress address, decimal? purchasePrice, DateOnly? purchaseDate, bool garage, byte? numberOfParkingSpaces, string notes) : this(type, address, purchasePrice, purchaseDate, garage, numberOfParkingSpaces, notes)
         {
             if (id <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(id));
             }
 
-            if (address == null)
-            {
-                throw new ArgumentNullException(nameof(address));
-            }
-
-            if (purchasePrice.HasValue && purchasePrice <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(purchasePrice));
-            }
-
+           
             this.Id = id;
-            this.Type = type;
-            this.Address = address;
-
-            if (purchasePrice != null)
-            {
-                this.PurchasePrice = purchasePrice.Value;
-            }
-
-            if (purchaseDate != null)
-            {
-                this.PurchaseDate = purchaseDate.Value;
-            }
-
-            this.Garage = garage;
             
-            if (numberOfParkingSpaces != null)
-            {
-                this.NumberOfParkingSpaces = numberOfParkingSpaces.Value;
-            }
-            this.Notes = notes;
         }
 
         /// <summary>

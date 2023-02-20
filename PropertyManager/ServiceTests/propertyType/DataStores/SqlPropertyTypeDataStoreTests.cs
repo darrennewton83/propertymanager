@@ -73,7 +73,7 @@
                 Connection.ExecuteScalarAsync("INSERT INTO property.type (name) VALUES (@name);SELECT scope_identity()", Arg.Is<List<SqlParameter>>((parameters) => parameters[0].ParameterName == "@name" && (string)parameters[0].Value == "name")).Returns(2);
                 var result = await sut.SaveAsync(propertyType);
 
-                var savedPropertyType = Assert.IsType<PropertyType>(result);
+                var savedPropertyType = Assert.IsType<PropertyType>(result.Value);
                 Assert.Equal(2, savedPropertyType.Id);
                 Assert.Equal("name", savedPropertyType.Name);
             }
@@ -113,7 +113,7 @@
 
                 var result = await sut.SaveAsync(propertyType);
 
-                var savedPropertyType = Assert.IsType<PropertyType>(result);
+                var savedPropertyType = Assert.IsType<PropertyType>(result.Value);
             }
         }
 
