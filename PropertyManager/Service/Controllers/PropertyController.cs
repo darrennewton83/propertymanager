@@ -1,8 +1,12 @@
 ﻿namespace Service.Controllers
 {
+    using AutoMapper;
+    using global::AutoMapper;
     using Microsoft.AspNetCore.Mvc;
+    using Service.ErrorResults;
     using Service.property;
     using Service.property.Manager;
+    using Service.propertyType;
 
     /// <summary>
     /// An api controller for managing the crud operations of properties
@@ -11,8 +15,8 @@
     [Route("[controller]")]
     public class PropertyController : ControllerBase
     {
-        ILogger<PropertyController> _logger;
         IPropertyManager _propertyManager;
+        IMapper _mapper;
 
         /// <summary>
         /// Initialises a new intance of the <see cref="PropertyController"/> class.
@@ -20,10 +24,10 @@
         /// <param name="logger"><The logger/param>
         /// <param name="propertyManager">The property manager</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public PropertyController(ILogger<PropertyController> logger, IPropertyManager propertyManager)
+        public PropertyController(IPropertyManager propertyManager, IMapper mapper)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _propertyManager = propertyManager ?? throw new ArgumentNullException(nameof(propertyManager));
+            _mapper = mapper ?? throw new ArgumentNullException();
         }
 
         /// <summary>
@@ -35,7 +39,7 @@
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("{id}")]
-        public async Task<ActionResult<IProperty>> Get(int id)
+        public async Task<ActionResult<PropertyApiDto>> Get(int id)
         {
             if (id <= 0)
             {
@@ -49,7 +53,7 @@
                 return NoContent();
             }
 
-            return new OkObjectResult(property);
+            return new OkObjectResult(_mapper.Map<PropertyApiDto>(property));
         }
 
         /// <summary>
@@ -74,6 +78,70 @@
                 return Ok();
 
             return NotFound();
+        }
+
+        /// <summary>
+        /// Creates a new propery
+        /// </summary>
+        /// <param name="property">The property to create</param>
+        /// <returns>The newly created property or an error message</returns>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Save([FromBody] PropertyApiDto property)
+        {
+            if (property == null)
+            {
+                return BadRequest();
+            }
+
+            if (property.Id.HasValue)
+            {
+                return BadRequest("Id cannot be provided when creating a property.");
+            }
+
+            var savedProperty = await _propertyManager.SaveAsync(_mapper.Map<IProperty>(property));
+
+            if (savedProperty.Type == EntityResults.ResultType.Error)
+            {
+
+                return new ErrorResult("The property could not be created.", _mapper);
+            }
+
+            return new ObjectResult(_mapper.Map<PropertyApiDto>(savedProperty.Value)) { StatusCode = StatusCodes.Status201Created };
+        }
+
+        /// <summary>
+        /// Updates an existing propery
+        /// </summary>
+        /// <param name="property">The property to update</param>
+        /// <returns>The newly created property or an error message</returns>
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Update([FromBody] PropertyApiDto property)
+        {
+            if (property == null)
+            {
+                return BadRequest();
+            }
+
+            if (!property.Id.HasValue)
+            {
+                return BadRequest("Id must be provided when updating a property.");
+            }
+
+            var savedProperty = await _propertyManager.SaveAsync(_mapper.Map<IProperty>(property));
+
+            if (savedProperty.Type == EntityResults.ResultType.Error)
+            {
+
+                return new ErrorResult("The property could not be updated.", _mapper);
+            }
+
+            return new ObjectResult(_mapper.Map<PropertyApiDto>(savedProperty.Value)) { StatusCode = StatusCodes.Status200OK };
         }
     }
 }

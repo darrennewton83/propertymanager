@@ -37,6 +37,27 @@
         }
 
         /// <inheritdoc />
+        public async ValueTask<IPropertyType?> GetByNameAsync(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            var result = await _databaseConnection.GetSingleRowAsync(GetByNameSql, name, (row) =>
+            {
+                return new PropertyType(row.id, row.name);
+            }, "name");
+
+            if (result is PropertyType propertyType)
+            {
+                return propertyType;
+            }
+
+            return null;
+        }
+
+        /// <inheritdoc />
         public async ValueTask<IEntityResult<IPropertyType>> SaveAsync(IPropertyType propertyType)
         {
             if (propertyType == null)
@@ -120,6 +141,12 @@
         /// Gets the SQL required to retreive a record
         /// </summary>
         protected abstract string GetSql { get; }
+
+        /// <summary>
+        /// Gets the SQL required to retreive a record by its name
+        /// </summary>
+        protected abstract string GetByNameSql { get; }
+
 
         /// <summary>
         /// Gets the SQL required to insert a record

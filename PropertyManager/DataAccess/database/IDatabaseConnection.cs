@@ -41,6 +41,15 @@
         Task<object> GetSingleRowAsync(string sql, int id, Func<dynamic, object> InitialiseReturnClass, string idColumnName = "id");
 
         /// <summary>
+        /// Returns a single row from a database
+        /// </summary>
+        /// <param name="sql">The SQL query to run</param>
+        /// <param name="id">The unique identifer of the row to return</param>
+        /// <param name="idColumnName">The name of the id field in the database. Default is "id"</param>
+        /// <returns>The row and its fields or null if row cannot be found</returns>
+        Task<object> GetSingleRowAsync(string sql, string id, Func<dynamic, object> InitialiseReturnClass, string idColumnName = "id");
+
+        /// <summary>
         /// Initialises the parameters variable to pass to a command
         /// </summary>
         /// <param name="command">An instance of <see cref="IDbCommand"/></param>

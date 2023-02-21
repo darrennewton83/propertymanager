@@ -15,6 +15,13 @@ namespace Service.propertyType.Manager
         public ValueTask<IPropertyType?> GetAsync(int id);
 
         /// <summary>
+        /// Returns the details of a property type based on its name
+        /// </summary>
+        /// <param name="name">The name of the property type</param>
+        /// <returns></returns>
+        public ValueTask<IPropertyType?> GetByNameAsync(string name);
+
+        /// <summary>
         /// Deletes a property type
         /// </summary>
         /// <param name="id">The unique identifier of the property type</param>

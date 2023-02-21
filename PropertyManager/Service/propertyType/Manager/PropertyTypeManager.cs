@@ -44,6 +44,17 @@
         }
 
         /// <inheritdoc />
+        public async ValueTask<IPropertyType?> GetByNameAsync(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentOutOfRangeException(nameof(name));
+            }
+
+            return await _dataStore.GetByNameAsync(name);
+        }
+
+        /// <inheritdoc />
         public async ValueTask<IEntityResult<IPropertyType>> SaveAsync(IPropertyType propertyType)
         {
             if (propertyType == null)

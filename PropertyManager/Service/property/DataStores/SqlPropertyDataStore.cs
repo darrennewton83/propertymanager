@@ -2,7 +2,9 @@
 {
     using DataAccess.database;
     using Microsoft.Data.SqlClient;
+    using MySqlX.XDevAPI.Common;
     using Service.address;
+    using Service.EntityResults;
     using Service.property;
     using Service.propertyType;
 
@@ -78,7 +80,7 @@
         }
 
         /// <inheritdoc />
-        public async ValueTask<IProperty?> SaveAsync(IProperty property)
+        public async ValueTask<IEntityResult<IProperty>> SaveAsync(IProperty property)
         {
             if (property == null)
             {
@@ -160,7 +162,21 @@
                 sql = InsertSql;
             }
 
-            var result = await _databaseConnection.ExecuteScalarAsync(sql.ToString(), parameters);
+            object? result = null;
+
+            try
+            {
+                result = await _databaseConnection.ExecuteScalarAsync(sql.ToString(), parameters);
+            }
+            catch (SqlException ex)
+            {
+                if (_logger.IsEnabled(LogLevel.Error))
+                {
+                    _logger.LogError(ex, "SQL could not be run saving a Property Type.");
+                }
+
+                return new EntityErrorResult<IProperty>();
+            }
 
             if (result == null)
             {
@@ -178,7 +194,7 @@
                 property = new Property(id, property.Type, property.Address, property.PurchasePrice, property.PurchaseDate, property.Garage, property.NumberOfParkingSpaces, property.Notes);
             }
 
-            return property;
+            return new ValueResult<IProperty>(property);
         }
 
         /// <summary>

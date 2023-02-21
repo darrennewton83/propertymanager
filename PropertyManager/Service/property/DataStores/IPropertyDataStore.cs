@@ -1,4 +1,6 @@
-﻿namespace Service.property.DataStores
+﻿using Service.EntityResults;
+
+namespace Service.property.DataStores
 {
     /// <summary>
     /// Represents a datastore of properties
@@ -24,6 +26,6 @@
         /// </summary>
         /// <param name="property">An instance of <see cref="Property"/> to save</param>
         /// <returns></returns>
-        public ValueTask<IProperty?> SaveAsync(IProperty property);
+        public ValueTask<IEntityResult<IProperty>> SaveAsync(IProperty property);
     }
 }

@@ -21,22 +21,22 @@
         /// <summary>
         /// Gets the address of the property
         /// </summary>
-        IAddress Address { get; }
+        public IAddress Address { get; }
 
         /// <summary>
         /// Gets the price the property was purchased for
         /// </summary>
-        decimal? PurchasePrice { get; }
+        public decimal? PurchasePrice { get; }
 
         /// <summary>
         /// Gets the date the property was purchased
         /// </summary>
-        DateOnly? PurchaseDate { get; }
+        public DateOnly? PurchaseDate { get; }
 
         /// <summary>
         /// Gets whether the property includes a garage
         /// </summary>
-        bool Garage { get; }
+        public bool Garage { get; }
 
         /// <summary>
         /// Gets the number of parking spaces at the property

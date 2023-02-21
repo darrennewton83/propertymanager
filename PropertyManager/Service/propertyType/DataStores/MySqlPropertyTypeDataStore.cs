@@ -21,6 +21,9 @@
         protected override string GetSql => "SELECT id, name FROM propertytype WHERE id = @id";
 
         /// <inheritdoc />
+        protected override string GetByNameSql => "SELECT id, name FROM property.type WHERE name = @name";
+
+        /// <inheritdoc />
         protected override string InsertSql => "INSERT INTO propertytype (name) VALUES (@name);select LAST_INSERT_ID();";
 
         /// <inheritdoc />

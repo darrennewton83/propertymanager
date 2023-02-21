@@ -10,8 +10,6 @@
 
     public class PropertyTypeControllerTests
     {
-        
-
         public class Get : Fixture
         {
             [Theory]

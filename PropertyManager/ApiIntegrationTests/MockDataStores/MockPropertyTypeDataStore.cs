@@ -1,4 +1,4 @@
-﻿namespace ApiIntegrationTests
+﻿namespace ApiIntegrationTests.MockDataStores
 {
     using Service.EntityResults;
     using Service.propertyType;
@@ -34,6 +34,22 @@
             }
 
             if (id == 999)
+            {
+                return null;
+            }
+
+            return new PropertyType(10, "A property type");
+        }
+
+        /// <inheritdoc />
+        public async ValueTask<IPropertyType?> GetByNameAsync(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if (name == "fail")
             {
                 return null;
             }

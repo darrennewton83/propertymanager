@@ -6,6 +6,7 @@ using Service.property.DataStores;
 using Service.propertyType.DataStores;
 using Service.propertyType.Manager;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,10 @@ builder.Services.AddSingleton<IPropertyTypeManager, PropertyTypeManager>();
 builder.Services.AddSingleton<IPropertyDataStore, MicrosoftSqlServerPropertyDataStore>();
 builder.Services.AddSingleton<IPropertyManager, PropertyManager>();
 
+//builder.Services.AddMvc().AddMvcOptions(options =>
+//{
+//    options.AllowEmptyInputInBodyModelBinding = true;
+//});
 builder.Services.AddAutoMapper(typeof(Program));
 var app = builder.Build();
 

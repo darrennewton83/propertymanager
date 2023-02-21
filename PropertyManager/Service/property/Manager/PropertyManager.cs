@@ -1,5 +1,6 @@
 ﻿namespace Service.property.Manager
 {
+    using Service.EntityResults;
     using Service.property.DataStores;
 
     /// <inheritdoc />
@@ -40,7 +41,7 @@
         }
 
         /// <inheritdoc />
-        public async ValueTask<IProperty?> SaveAsync(IProperty property)
+        public async ValueTask<IEntityResult<IProperty>> SaveAsync(IProperty property)
         {
             if (property == null)
             {

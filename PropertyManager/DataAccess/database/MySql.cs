@@ -104,6 +104,22 @@
         }
 
         /// <inheritdoc />
+        public async Task<object> GetSingleRowAsync(string sql, string id, Func<dynamic, object> InitialiseReturnClass, string idColumnName = "id")
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add(idColumnName, id);
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+
+                var result = await connection.QueryFirstOrDefaultAsync(sql, parameters);
+                if (result == null)
+                    return null;
+
+                return InitialiseReturnClass(result); ;
+            }
+        }
+
+        /// <inheritdoc />
         public void InitialiseParameters(IDbCommand command, IList<SqlParameter> parameters)
         {
             if (command is MySqlCommand mySqlCommand)

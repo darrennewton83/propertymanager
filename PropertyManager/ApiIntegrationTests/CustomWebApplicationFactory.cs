@@ -1,9 +1,11 @@
 ﻿namespace ApiIntegrationTests
 {
+    using ApiIntegrationTests.MockDataStores;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Testing;
     using Microsoft.AspNetCore.TestHost;
     using NSubstitute;
+    using Service.property.DataStores;
     using Service.propertyType.DataStores;
 
     /// <summary>
@@ -20,6 +22,7 @@
             builder.ConfigureServices(services =>
             {
                 services.AddTransient<IPropertyTypeDataStore, MockPropertyTypeDataStore>();
+                services.AddTransient<IPropertyDataStore, MockPropertyDataStore>();
             });
         }
     }
