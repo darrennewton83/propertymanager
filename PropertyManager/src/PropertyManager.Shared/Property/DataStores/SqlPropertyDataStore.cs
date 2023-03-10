@@ -7,6 +7,7 @@
     using PropertyManager.Shared.Property;
     using PropertyManager.Shared.PropertyType;
     using Microsoft.Extensions.Logging;
+    using Mysqlx.Resultset;
 
     /// <summary>
     /// A property datastore that uses a relational database as the backend
@@ -48,7 +49,7 @@
             return false;
         }
 
-        /// <inheritdoc />
+        
         public async ValueTask<IProperty?> GetAsync(int id)
         {
             if (id <= 0)
@@ -77,6 +78,37 @@
             }
 
             return null;
+        }
+
+        /// <inheritdoc />
+        public async ValueTask<IEnumerable<IProperty>> GetAsync()
+        {
+            var result = await _databaseConnection.QueryAsync(GetAllSql, (rows) =>
+            {
+                var properties = new List<Property>();
+                foreach (var row in rows)
+                {
+                    DateOnly? purchasePrice = null;
+                    var propertyType = new PropertyType(row.id, row.name);
+                    var address = new Address(row.line1, row.line2, row.city, row.region, row.postcode);
+
+                    DateOnly? purchaseDate = null;
+                    if (row.purchase_date != null)
+                    {
+                        purchaseDate = new DateOnly(row.purchase_date.Year, row.purchase_date.Month, row.purchase_date.Day);
+                    }
+
+                    properties.Add(new Property(row.id, propertyType, address, row.purchase_price, purchaseDate, row.garage, row.parking_spaces, row.notes));
+                }
+                return properties;
+            });
+
+            if (result is IEnumerable<IProperty> properties)
+            {
+                return properties;
+            }
+
+            return Enumerable.Empty<IProperty>();
         }
 
         /// <inheritdoc />
@@ -201,6 +233,11 @@
         /// Gets the SQL required to retreive a record
         /// </summary>
         protected abstract string GetSql { get; }
+
+        /// <summary>
+        /// Gets the SQL required to retreive all records
+        /// </summary>
+        protected abstract string GetAllSql { get; }
 
         /// <summary>
         /// Gets the SQL required to insert a record

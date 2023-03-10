@@ -22,6 +22,9 @@
         protected override string GetSql => "SELECT purchase_price, propertytype.id, propertytype.name, purchase_date, garage, parking_spaces, notes, propertyaddress.line1, propertyaddress.line2, propertyaddress.city, propertyaddress.region, propertyaddress.postcode FROM propertyoverview INNER JOIN propertytype ON propertytype.id = propertyoverview.type LEFT JOIN propertyaddress ON propertyaddress.id = propertyoverview.id WHERE propertyoverview.id = @id";
 
         /// <inheritdoc />
+        protected override string GetAllSql => "SELECT propertyoverview.id, purchase_price, propertytype.id, propertytype.name, purchase_date, garage, parking_spaces, notes, propertyaddress.line1, propertyaddress.line2, propertyaddress.city, propertyaddress.region, propertyaddress.postcode FROM propertyoverview INNER JOIN propertytype ON propertytype.id = propertyoverview.type LEFT JOIN propertyaddress ON propertyaddress.id = propertyoverview.id";
+
+        /// <inheritdoc />
         protected override string InsertSql
         {
             get

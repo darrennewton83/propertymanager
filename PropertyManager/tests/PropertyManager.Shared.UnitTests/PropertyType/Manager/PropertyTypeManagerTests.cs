@@ -86,6 +86,34 @@
             }
         }
 
+        public class GetAllAsync : Fixture
+        {
+            
+
+            [Fact]
+            public async void GivenRecordsExist_GetAsync_ReturnsRecords()
+            {
+                var sut = new PropertyTypeManager(DataStore, Logger);
+                DataStore.GetAsync().Returns(new List<IPropertyType> { new PropertyType(3, "Apartment"), new PropertyType(1, "House") });
+                var result = await sut.GetAsync();
+
+                var propertyTypes = Assert.IsAssignableFrom<IEnumerable<IPropertyType>>(result);
+
+                Assert.Collection(propertyTypes, element1 => { Assert.Equal(3, element1.Id); Assert.Equal("Apartment", element1.Name); },
+                    element2 => { Assert.Equal(1, element2.Id); Assert.Equal("House", element2.Name); }
+                    );
+            }
+
+            [Fact]
+            public async void GivenRecordDoesNotExist_GetAsync_ReturnsNull()
+            {
+                var sut = new PropertyTypeManager(DataStore, Logger);
+                DataStore.GetAsync().Returns(Enumerable.Empty<IPropertyType>());
+                var result = await sut.GetAsync();
+                Assert.Empty(result);
+            }
+        }
+
         public class SaveAsync : Fixture
         {
             [Fact]

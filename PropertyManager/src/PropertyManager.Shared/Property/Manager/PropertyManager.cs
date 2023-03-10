@@ -42,6 +42,12 @@ namespace PropertyManager.Shared.Property.Manager
         }
 
         /// <inheritdoc />
+        public async ValueTask<IEnumerable<IProperty>> GetAsync()
+        {
+            return await _dataStore.GetAsync();
+        }
+
+        /// <inheritdoc />
         public async ValueTask<IEntityResult<IProperty>> SaveAsync(IProperty property)
         {
             if (property == null)

@@ -5,6 +5,7 @@ namespace PropertyManager.Api.AutoMapper
     using PropertyManager.Api.Dto;
     using PropertyManager.Shared.Address;
     using PropertyManager.Shared.Property;
+    using PropertyManager.Shared.PropertyType;
     using PropertyManager.Shared.PropertyType.Manager;
 
     public class PropertyConverter : ITypeConverter<PropertyDto, IProperty>
@@ -18,11 +19,18 @@ namespace PropertyManager.Api.AutoMapper
 
         public IProperty Convert(PropertyDto source, IProperty destination, ResolutionContext context)
         {
-            var propertyType = _propertyTypeManager.GetByNameAsync(source.Type).Result;
+            IPropertyType propertyType = null;
+            if (source.PropertyTypeId.HasValue && source.PropertyTypeId > 0)
+            {
+                propertyType = _propertyTypeManager.GetAsync(source.PropertyTypeId.Value).Result;
+            }
+            else if (!string.IsNullOrWhiteSpace(source.PropertyTypeName)) {
+                propertyType = _propertyTypeManager.GetByNameAsync(source.PropertyTypeName).Result;
+            }
 
             if (propertyType == null)
             {
-
+                throw new ArgumentException (nameof(source));
             }
 
             if (source.Id.HasValue)

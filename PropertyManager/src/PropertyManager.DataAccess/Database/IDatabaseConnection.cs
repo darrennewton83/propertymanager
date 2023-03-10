@@ -50,6 +50,14 @@
         Task<object> GetSingleRowAsync(string sql, string id, Func<dynamic, object> InitialiseReturnClass, string idColumnName = "id");
 
         /// <summary>
+        /// Returns one or more rows from a database
+        /// </summary>
+        /// <param name="sql">The SQL query to run</param>
+        /// <param name="InitialiseReturnClass"></param>
+        /// <returns></returns>
+        Task<IEnumerable<object>> QueryAsync(string sql, Func<dynamic, IEnumerable<object>> InitialiseReturnClass);
+
+        /// <summary>
         /// Initialises the parameters variable to pass to a command
         /// </summary>
         /// <param name="command">An instance of <see cref="IDbCommand"/></param>

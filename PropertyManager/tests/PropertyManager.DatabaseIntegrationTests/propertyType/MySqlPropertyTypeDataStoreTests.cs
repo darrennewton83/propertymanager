@@ -58,6 +58,32 @@
         }
 
         [Collection("MySqlDatabaseCollection")]
+        public class GetAsyncAll : Fixture
+        {
+            public GetAsyncAll(MySqlDatabaseFixture databaseFixture) : base(databaseFixture)
+            {
+            }
+
+            [Fact]
+            public async void GivenRecordsExist_GetAsync_ReturnsPropertyTypes()
+            {
+                var sut = new MySqlPropertyTypeDataStore(new MySql(this.DatabaseLogger, DatabaseFixture.ConnectionString), Logger);
+                var result = await sut.GetAsync();
+
+                var propertyTypes = Assert.IsAssignableFrom<IEnumerable<IPropertyType>>(result);
+
+                Assert.Collection(propertyTypes,
+                    element1 => { Assert.Equal("Apartment", element1.Name); Assert.Equal(1, element1.Id); },
+                element2 => { Assert.Equal("Detached House", element2.Name); Assert.Equal(2, element2.Id); },
+                element3 => { Assert.Equal("Semi Detached House", element3.Name); Assert.Equal(3, element3.Id); },
+                element4 => { Assert.Equal("Studio Flat", element4.Name); Assert.Equal(5, element4.Id); },
+                element5 => { Assert.Equal("Terraced House", element5.Name); Assert.Equal(4, element5.Id); }
+                );
+            }
+        }
+
+
+        [Collection("MySqlDatabaseCollection")]
         public class DeleteAsync : Fixture
         {
             public DeleteAsync(MySqlDatabaseFixture databaseFixture) : base(databaseFixture)

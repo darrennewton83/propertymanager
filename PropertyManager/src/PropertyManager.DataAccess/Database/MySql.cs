@@ -120,6 +120,21 @@
         }
 
         /// <inheritdoc />
+        public async Task<IEnumerable<object>> QueryAsync(string sql, Func<dynamic, IEnumerable<object>> InitialiseReturnClass)
+        {
+
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                var result = await connection.QueryAsync(sql);
+                if (result == null)
+                    return null;
+
+                return InitialiseReturnClass(result); ;
+            }
+
+        }
+
+        /// <inheritdoc />
         public void InitialiseParameters(IDbCommand command, IList<SqlParameter> parameters)
         {
             if (command is MySqlCommand mySqlCommand)

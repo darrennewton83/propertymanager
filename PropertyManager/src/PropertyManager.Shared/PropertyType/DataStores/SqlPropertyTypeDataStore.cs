@@ -4,6 +4,7 @@
     using Microsoft.Data.SqlClient;
     using Microsoft.Extensions.Logging;
     using PropertyManager.Shared.EntityResults;
+    using System.Collections.Generic;
 
     public abstract class SqlPropertyTypeDataStore : IPropertyTypeDataStore
     {
@@ -35,6 +36,27 @@
             }
 
             return null;
+        }
+
+        public async ValueTask<IEnumerable<IPropertyType>> GetAsync()
+        {
+            var result = await _databaseConnection.QueryAsync(GetAllSql, (rows) =>
+            {
+                IList<IPropertyType> propertyTypes = new List<IPropertyType>();
+                foreach (var row in rows)
+                {
+                    propertyTypes.Add(new PropertyType(row.id, row.name));
+                }
+
+                return propertyTypes;
+            });
+
+            if (result is IEnumerable<IPropertyType> propertyTypes)
+            {
+                return propertyTypes;
+            }
+
+            return Enumerable.Empty<IPropertyType>();
         }
 
         /// <inheritdoc />
@@ -142,6 +164,8 @@
         /// Gets the SQL required to retreive a record
         /// </summary>
         protected abstract string GetSql { get; }
+
+        protected abstract string GetAllSql { get; }
 
         /// <summary>
         /// Gets the SQL required to retreive a record by its name

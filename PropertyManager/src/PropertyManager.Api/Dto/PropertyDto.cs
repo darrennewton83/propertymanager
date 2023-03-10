@@ -15,9 +15,14 @@
         public int? Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the type of the property
+        /// Gets or sets the property type's id
         /// </summary>
-        public string Type { get; set;}
+        public int? PropertyTypeId{ get; set; }
+
+        /// <summary>
+        /// Gets or sets the property type's name
+        /// </summary>
+        public string PropertyTypeName { get; set;}
 
         /// <summary>
         /// Gets or sets the first line of the address
