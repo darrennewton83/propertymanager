@@ -5,28 +5,23 @@ import ListItemText from '@mui/material/ListItemText';
 import Link from '@mui/material/Link';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Scrollbar } from './scrollbar';
+import { Scrollbar } from '../components/scrollbar';
 import ChevronUpDownIcon from '@heroicons/react/24/solid/ChevronUpDownIcon';
-import { Logo } from './logo';
-import { SideNavItem } from './side-nav-item';
-import { useTheme } from '@mui/material/styles';
+import { Logo } from '../components/logo';
+import { SideNavItem } from '../components/side-nav-item';
+import HomeModernIcon from '@heroicons/react/24/solid/HomeModernIcon';
 import {
     Box,
-    Button,
     Divider,
     Drawer,
     Stack,
     SvgIcon,
     Typography,
-    useMediaQuery
 } from '@mui/material';
-import { createTheme } from '../theme';
 export function Navbar(props) {
-    const theme = useTheme();
 
     const { open, onClose } = props;
     const drawerWidth = 240;
-    const navItems = ['Home', 'About', 'Contact'];
 
     const [mobileOpen, setMobileOpen] = useState(true);
 
@@ -101,14 +96,9 @@ export function Navbar(props) {
                                 color="inherit"
                                 variant="subtitle1"
                             >
-                                Devias
+                                Property Manager
                             </Typography>
-                            <Typography
-                                color="neutral.400"
-                                variant="body2"
-                            >
-                                Production
-                            </Typography>
+                            
                         </div>
                         <SvgIcon
                             fontSize="small"
@@ -137,22 +127,13 @@ export function Navbar(props) {
                         m: 0
                     }}
                 >
-                    <SideNavItem title="Properties" path="/properties" />
+                    <SideNavItem title="Properties" path="/properties" icon={
+                        <SvgIcon fontSize="small">
+                            <HomeModernIcon />
+                        </SvgIcon>
+                    } />
                     <SideNavItem title="Property Types" path="/settings/propertytypes" />
-                    <List>
-
-                        <ListItem disablePadding>
-                            <ListItemButton sx={{ textAlign: 'center' }}>
-                                <ListItemText>Properties</ListItemText>
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton sx={{ textAlign: 'center' }}>
-                                <ListItemText><Link href="/settings/propertytypes">Property Types</Link></ListItemText>
-                            </ListItemButton>
-                        </ListItem>
-                    </List>
-                 
+                   
                 </Stack>
             </Box>
         </Scrollbar>

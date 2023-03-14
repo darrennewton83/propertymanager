@@ -7,7 +7,8 @@ import {
     TableCell,
     TableHead,
     TablePagination,
-    TableRow
+    TableRow,
+    Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
 } from '@mui/material';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
@@ -153,6 +154,27 @@ function PropertyGrid() {
                     {/*/>*/}
                 </Stack>
             </Container>
+            <Dialog
+                open={this.state.isOpen}
+                onClose={this.HandleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {this.state.title}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you wish to delete the selected property?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={props.deleteFunction} autoFocus>
+                        OK
+                    </Button>
+                </DialogActions>
+            </Dialog>)
         </Box>
     );
 }

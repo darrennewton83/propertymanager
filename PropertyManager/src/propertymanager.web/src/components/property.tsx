@@ -2,7 +2,6 @@ import { useCallback, useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useForm } from "react-hook-form";
-import { literal, number, object, string, TypeOf, z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PropertyInput, propertySchema } from '../schemas/propertySchema';
 import { PropertyType } from '../schemas/propertyTypeSchema';
@@ -10,20 +9,15 @@ import {
     Box,
     Button,
     Card,
-    CardActions,
     CardContent,
     CardHeader,
-    Checkbox,
     FormControlLabel,
-    Divider,
-    Select,
     Stack,
     Switch,
     TextField,
     Unstable_Grid2 as Grid,
-    MenuItem
 } from '@mui/material';
-import * as React from 'react';
+
 
 export const PropertyDetails = () => {
     const queryString = useParams();

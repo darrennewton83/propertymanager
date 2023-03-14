@@ -1,5 +1,5 @@
-import Header from '../components/header'
-import { Navbar } from '../components/navbar'
+import Header from './header'
+import { Navbar } from './navbar'
 import PropertyTypeGrid from '../components/propertyTypeSummary'
 import PropertyGrid from '../components/propertySummary'
 import { PropertyDetails } from '../components/property'
