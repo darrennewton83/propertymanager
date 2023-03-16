@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "PropertyManager.DatabaseMigration.MicrosoftSqlServer": {
+      "commandName": "Project"
+    }
+  }
+}
