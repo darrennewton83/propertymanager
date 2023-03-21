@@ -38,6 +38,15 @@ namespace PropertyManager.Api.IntegrationTests.MockDataStores
             return new Property(10, new PropertyType(3, "Apartment"), new Address("line 1", "line 2", "city", "region", "postcode"), 100000, new DateOnly(2023, 02, 20), true, 3, "some notes");
         }
 
+        public async ValueTask<IEnumerable<IProperty>> GetAsync()
+        {
+            return new List<IProperty>()
+            {
+                new Property(10, new PropertyType(3, "Apartment"), new Address("line 1", "line 2", "city", "region", "postcode"), 100000, new DateOnly(2023, 02, 20), true, 3, "some notes"),
+                new Property(10, new PropertyType(3, "House"), new Address("line 1", "line 2", "city", "region", "postcode"), 100000, new DateOnly(2023, 02, 20), true, 3, "some notes")
+            };
+        }
+
         public async ValueTask<IEntityResult<IProperty>> SaveAsync(IProperty property)
         {
             if (property.Notes == "fail")
