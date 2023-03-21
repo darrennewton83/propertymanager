@@ -31,6 +31,8 @@
         protected override string UpdateSql => "UPDATE property.type SET name = @name where id = @id";
 
         /// <inheritdoc />
-        protected override string DeleteSql => "DELETE FROM property.type WHERE id = @id";      
+        protected override string DeleteSql => "DELETE FROM property.type WHERE id = @id";
+
+        protected override string GetAllSql => "SELECT id, name FROM property.type ORDER BY name";
     }
 }

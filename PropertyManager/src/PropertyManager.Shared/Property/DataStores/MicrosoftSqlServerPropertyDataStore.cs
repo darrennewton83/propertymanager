@@ -42,9 +42,12 @@
         }
 
         /// <inheritdoc />
+        protected override string GetAllSql => "SELECT property.overview.id, purchase_price, type.id, type.name, purchase_date, garage, parking_spaces, notes, property.address.line1, property.address.line2, property.address.city, property.address.region, property.address.postcode FROM property.overview INNER JOIN property.type ON property.type.id = property.overview.type LEFT JOIN property.address ON property.address.id = property.overview.id";
+
+        /// <inheritdoc />
         protected override string UpdateSql => "UPDATE property.overview SET type = @type, purchase_price = @purchase_price, purchase_date = @purchase_date, garage = @garage, parking_spaces = @parking_spaces, notes = @notes WHERE id = @id;UPDATE property.address SET line1 = @line1, line2 = @line2, city = @city, region = @region, postcode = @postcode where id = @id;SELECT @id";
 
         /// <inheritdoc />
-        protected override string DeleteSql => "DELETE FROM property.overview WHERE id = @id";
+        protected override string DeleteSql => "DELETE FROM property.overview WHERE id = @id";        
     }
 }

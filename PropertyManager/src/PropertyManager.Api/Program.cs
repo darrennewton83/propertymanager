@@ -40,7 +40,7 @@ builder.Services.AddSingleton<IPropertyManager, PropertyManager.Shared.Property.
 builder.Services.AddAutoMapper(typeof(Program));
 var app = builder.Build();
 
-
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 
 // Configure the HTTP request pipeline.

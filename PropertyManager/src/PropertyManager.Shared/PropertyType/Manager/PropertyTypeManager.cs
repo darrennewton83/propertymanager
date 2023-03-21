@@ -3,6 +3,7 @@
     using Microsoft.Extensions.Logging;
     using PropertyManager.Shared.EntityResults;
     using PropertyManager.Shared.PropertyType.DataStores;
+    using System.Collections.Generic;
 
     /// <inheritdoc />
     public class PropertyTypeManager : IPropertyTypeManager
@@ -42,6 +43,11 @@
             }
 
             return await _dataStore.GetAsync(id);
+        }
+
+        public async ValueTask<IEnumerable<IPropertyType>> GetAsync()
+        {
+            return await _dataStore.GetAsync();
         }
 
         /// <inheritdoc />

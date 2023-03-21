@@ -5,7 +5,7 @@ public class Program
 {
     static int Main(string[] args)
     {
-        Console.WriteLine("args=" + args.FirstOrDefault());
+        Console.Title = "Property Manager Database Migration (MySql)";
         if (args.FirstOrDefault() == null)
         {
             throw new ArgumentNullException(nameof(args));
@@ -37,6 +37,7 @@ public class Program
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine("Success!");
         Console.ResetColor();
+        Console.ReadLine ();
         return 0;
     }
 }

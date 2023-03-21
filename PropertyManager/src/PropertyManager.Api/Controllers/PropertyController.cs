@@ -7,6 +7,7 @@
     using PropertyManager.Shared.Property;
     using PropertyManager.Shared.Property.Manager;
     using PropertyManager.Shared.EntityResults;
+    using Microsoft.IdentityModel.Tokens;
 
     /// <summary>
     /// An api controller for managing the crud operations of properties
@@ -54,6 +55,25 @@
             }
 
             return new OkObjectResult(_mapper.Map<PropertyDto>(property));
+        }
+
+        /// <summary>
+        /// Gets all properties 
+        /// </summary>
+        /// <returns>An individual property type</returns>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet()]
+        public async Task<ActionResult<PropertyDto>> Get()
+        {
+            var properties = await _propertyManager.GetAsync();
+
+            if (properties.IsNullOrEmpty())
+            {
+                return NoContent();
+            }
+
+            return new OkObjectResult(_mapper.Map<IEnumerable<PropertyDto>>(properties));
         }
 
         /// <summary>

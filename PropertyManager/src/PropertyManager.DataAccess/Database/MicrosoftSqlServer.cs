@@ -83,13 +83,13 @@
             parameters.Add(idColumnName, id);
             using (var connection = new SqlConnection(_connectionString))
             {
-
                 var result = await connection.QueryFirstOrDefaultAsync(sql, parameters);
                 if (result == null)
                     return null;
 
                 return InitialiseReturnClass(result); ;
-            }            
+            }
+            
         }
 
         /// <inheritdoc />
@@ -106,6 +106,21 @@
 
                 return InitialiseReturnClass(result); ;
             }
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<object>> QueryAsync(string sql, Func<dynamic, IEnumerable<object>> InitialiseReturnClass)
+        {
+            
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var result = await connection.QueryAsync(sql);
+                if (result == null)
+                    return null;
+
+                return InitialiseReturnClass(result); ;
+            }
+
         }
 
         /// <inheritdoc />

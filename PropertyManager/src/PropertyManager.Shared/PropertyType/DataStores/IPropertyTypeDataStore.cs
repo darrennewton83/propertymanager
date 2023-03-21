@@ -15,6 +15,12 @@
         public ValueTask<IPropertyType?> GetAsync(int id);
 
         /// <summary>
+        /// Returns the details of all property types
+        /// </summary>
+        /// <returns>An enumerable of <see cref="IPropertyType" /></returns>
+        public ValueTask<IEnumerable<IPropertyType>> GetAsync();
+
+        /// <summary>
         /// Returns the details of a property type based on its name
         /// </summary>
         /// <param name="name">The name of the property type</param>

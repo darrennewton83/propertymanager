@@ -27,7 +27,7 @@ namespace PropertyManager.Api.AutoMapper
             CreateMap<IErrorMessage, ErrorMessageDto>();
             CreateMap<IAddress, AddressDto>();
             CreateMap<IAddress, PropertyDto>();
-            CreateMap<IProperty, PropertyDto>().IncludeMembers(s => s.Address).ForMember(dest => dest.Type, source => source.MapFrom(src => src.Type.Name));
+            CreateMap<IProperty, PropertyDto>().IncludeMembers(s => s.Address).ForMember(dest => dest.PropertyTypeName, source => source.MapFrom(src => src.Type.Name)).ForMember(dest => dest.PropertyTypeId, source => source.MapFrom(src => src.Type.Id));
             CreateMap<PropertyDto, IProperty>().ConvertUsing<PropertyConverter>();
 
 

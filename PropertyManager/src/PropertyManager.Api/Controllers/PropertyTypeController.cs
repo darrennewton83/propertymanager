@@ -4,6 +4,7 @@ namespace PropertyManager.Api.Controllers
 {
     
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.IdentityModel.Tokens;
     using PropertyManager.Api.Dto;
     using PropertyManager.Api.ErrorResults;
     using PropertyManager.Shared.EntityResults;
@@ -56,6 +57,26 @@ namespace PropertyManager.Api.Controllers
             }
 
             return new OkObjectResult(_mapper.Map<PropertyTypeDto>(propertyType));
+        }
+
+        /// <summary>
+        /// Gets all property type
+        /// </summary>
+        /// <param name="id">The unique identifier of the property type to get</param>
+        /// <returns>An individual property type</returns>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<PropertyTypeDto>>> Get()
+        {
+            var propertyTypes = await _propertyTypeManager.GetAsync();
+
+            if (propertyTypes.IsNullOrEmpty())
+            {
+                return new NoContentResult();
+            }
+
+            return new OkObjectResult(_mapper.Map<IEnumerable<PropertyTypeDto>>(propertyTypes));
         }
 
         /// <summary>

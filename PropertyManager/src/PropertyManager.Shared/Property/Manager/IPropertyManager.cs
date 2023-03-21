@@ -11,7 +11,13 @@ namespace PropertyManager.Shared.Property.Manager
         /// <param name="id">The unique identifier of the property</param>
         /// <returns>An instance of <see cref="IProperty" /></returns>
         public ValueTask<IProperty?> GetAsync(int id);
-        
+
+        /// <summary>
+        /// Returns the details of all properties
+        /// </summary>
+        /// <returns>A collection of <see cref="IProperty" /></returns>
+        public ValueTask<IEnumerable<IProperty>> GetAsync();
+
         /// <summary>
         /// Deletes a property
         /// </summary>

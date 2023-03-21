@@ -32,5 +32,7 @@
 
         /// <inheritdoc />
         protected override string DeleteSql => "DELETE FROM propertytype WHERE id = @id";
+
+        protected override string GetAllSql => "SELECT id, name FROM propertytype ORDER BY name";
     }
 }
