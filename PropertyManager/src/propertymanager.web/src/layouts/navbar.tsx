@@ -10,6 +10,7 @@ import ChevronUpDownIcon from '@heroicons/react/24/solid/ChevronUpDownIcon';
 import { Logo } from '../components/logo';
 import { SideNavItem } from '../components/side-nav-item';
 import HomeModernIcon from '@heroicons/react/24/solid/HomeModernIcon';
+import InboxIcon from '@heroicons/react/24/solid/InboxIcon';
 import {
     Box,
     Divider,
@@ -132,7 +133,11 @@ export function Navbar(props) {
                             <HomeModernIcon />
                         </SvgIcon>
                     } />
-                    <SideNavItem title="Property Types" path="/settings/propertytypes" />
+                    <SideNavItem title="Property Types" path="/settings/propertytypes" icon={
+                        <SvgIcon fontSize="small">
+                            <InboxIcon />
+                        </SvgIcon>
+                    } />
                    
                 </Stack>
             </Box>

@@ -11,10 +11,12 @@ import {
     Card,
     CardContent,
     CardHeader,
+    Container,
     FormControlLabel,
     Stack,
     Switch,
     TextField,
+    Typography,
     Unstable_Grid2 as Grid,
 } from '@mui/material';
 
@@ -115,8 +117,19 @@ export const PropertyDetails = () => {
     }, []);
 
     return (
+        <Box
+            component="main"
+            sx={{
+                flexGrow: 1,
+                py: 8
+            }}
+        >
+            <Container maxWidth="xl">
         <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={3}>
+                <Typography variant="h4">
+                    New Property
+                </Typography>
             <Card>
                 <CardHeader
                     subheader="The address of the property"
@@ -350,6 +363,9 @@ export const PropertyDetails = () => {
                         Cancel
                     </Button></Stack>
             </Stack>
-        </form>
+                </form>
+            </Container>
+
+        </Box>
     )
 }

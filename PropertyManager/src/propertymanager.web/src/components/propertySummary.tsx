@@ -8,7 +8,7 @@ import {
     TableHead,
     TablePagination,
     TableRow,
-    Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
+    Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
 } from '@mui/material';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
@@ -18,6 +18,7 @@ import { PropertyInput } from '../schemas/propertySchema';
 import { PropertyType } from '../schemas/propertyTypeSchema';
 import PencilIcon from '@heroicons/react/24/solid/PencilIcon';
 import TrashIcon from '@heroicons/react/24/solid/TrashIcon';
+
 function PropertyGrid() {
 
     const [tableData, setTableData] = useState([])
@@ -36,12 +37,12 @@ function PropertyGrid() {
     function FormatAddress(property) {
         let address = property.addressLine1 + ', ';
 
-        if (property.addressLine2 != '') {
+        if (property.addressLine2 != null && property.addressLine2 != '') {
             address += property.addressLine2 + ', ';
         }
 
         address += property.city += ', ';
-        if (property.region != '') {
+        if (property.region != null && property.region != '') {
             address += property.region + ', ';
         }
 
@@ -154,27 +155,7 @@ function PropertyGrid() {
                     {/*/>*/}
                 </Stack>
             </Container>
-            <Dialog
-                open={this.state.isOpen}
-                onClose={this.HandleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {this.state.title}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Are you sure you wish to delete the selected property?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={props.deleteFunction} autoFocus>
-                        OK
-                    </Button>
-                </DialogActions>
-            </Dialog>)
+            
         </Box>
     );
 }

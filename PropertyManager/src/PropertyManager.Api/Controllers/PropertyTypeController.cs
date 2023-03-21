@@ -60,7 +60,7 @@ namespace PropertyManager.Api.Controllers
         }
 
         /// <summary>
-        /// Returns all property type
+        /// Gets all property type
         /// </summary>
         /// <param name="id">The unique identifier of the property type to get</param>
         /// <returns>An individual property type</returns>
